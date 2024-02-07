@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: af67667a494097749af69d8bc3903172
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Hemi Head
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 59a160d8c4f30e24291daa9584f48b8d, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

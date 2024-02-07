@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Login.unity
+    guid: f0af02622943f1c439ec9e193fd4a7c3
+  - enabled: 0
+    path: Assets/Scenes/StartLobby.unity
+    guid: fb0f9f5c37137bf4bae14dd4beb2236d
+  - enabled: 1
+    path: Assets/Scenes/Multiplayerscene.unity
+    guid: 3970e336bb0697c4d87f59136a46b53e
+  - enabled: 1
+    path: Assets/Scenes/LapRace.unity
+    guid: ba8e33beea1e44b489b481932276e94c
+  - enabled: 1
+    path: Assets/Scenes/Multiplaye_map1.unity
+    guid: 82e8b68eed963f74ea5c5278aec407be
+  - enabled: 1
+    path: Assets/Scenes/1v1_map1.unity
+    guid: 95d226bf323774e4097bf7b8ae76d4ff
+  - enabled: 1
+    path: Assets/Scenes/1v1_map2.unity
+    guid: d7d6415d87a5b8f48ab5fffef8dc4988
+  - enabled: 1
+    path: Assets/Scenes/Training_map1.unity
+    guid: 3d16ca3a541d0584dab88821f6ecaf3b
+  - enabled: 1
+    path: Assets/Scenes/Training_map2.unity
+    guid: 78efcf2bcf1755549a6c269f24296d4a
+  - enabled: 1
+    path: Assets/Scenes/Timer_map1.unity
+    guid: 72178446d3939714aa4b9160df9dc0d1
+  - enabled: 1
+    path: Assets/Scenes/Timer_map2.unity
+    guid: c467fd4f9dd098744b6ad99790f38951
+  - enabled: 1
+    path: Assets/Scenes/Multiplaye_map2.unity
+    guid: eeef54c6a68576344899b4dc1f25fce1
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  m_configObjects: {}

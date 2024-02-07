@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 799cd9ad37d209143bc926221c7359b5
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Tamworth Gothic
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a26e185bc4f338f49a30578fb1528c33, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
