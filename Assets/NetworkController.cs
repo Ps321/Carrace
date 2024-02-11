@@ -13,11 +13,16 @@ public class NetworkController : MonoBehaviourPunCallbacks
 
     public GameObject loading;
     public Text indpoints;
+    public Text indCoins;
+    public Text racerspoints;
+    public Text indpoints_gm;
+    public Text indCoins_gm;
+    public Text racerspoints_gm;
     // Start is called before the first frame update
     void Start()
     {
         loading.SetActive(true);
-        PhotonNetwork.ConnectUsingSettings();
+
         StartCoroutine(Signup1());
     }
 
@@ -65,7 +70,16 @@ public class NetworkController : MonoBehaviourPunCallbacks
 
                     Debug.Log(s); //Output 1
                     string[] result = s.Split('-');
+                    PlayerPrefs.SetString("name", result[0]);
                     indpoints.text = result[4];
+                    indCoins.text = result[5];
+                    racerspoints.text = result[6];
+                    indpoints_gm.text = result[4];
+                    indCoins_gm.text = result[5];
+                    racerspoints_gm.text = result[6];
+                    PlayerPrefs.SetInt("ip_balance", int.Parse(result[4]));
+                    PlayerPrefs.SetInt("ic_balance", int.Parse(result[5]));
+                    PlayerPrefs.SetInt("rc_balance", int.Parse(result[6]));
                 }
             }
             loading.SetActive(false);

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class CountDownMulti : MonoBehaviour
 {
-     public GameObject CountDown;
+    public GameObject CountDown;
     public AudioSource startsound;
 
-   // public GameObject Laptimer;
+    // public GameObject Laptimer;
     public AudioClip gosound;
 
     public GameObject controlpanel;
@@ -18,43 +19,47 @@ public class CountDownMulti : MonoBehaviour
 
     public GameObject aiplayer;
     public GameObject aiplayerclone;
-    
+
     void Start()
     {
-        StartCoroutine(Countstart());    
+        StartCoroutine(Countstart());
     }
 
-IEnumerator Countstart(){
-    yield return new WaitForSeconds(0.5f);
-  //  SpawnVehicle.player.GetComponent<Rigidbody>().isKinematic=true;
-    CountDown.GetComponent<Text>().text="3";
-    startsound.Play();
-    CountDown.SetActive(true);
-    yield return new WaitForSeconds(1.05f);
-    CountDown.SetActive(false);
-    CountDown.GetComponent<Text>().text="2";
-    startsound.Play();
-    CountDown.SetActive(true);
-    yield return new WaitForSeconds(1.05f);
-    CountDown.SetActive(false);
-    CountDown.GetComponent<Text>().text="1";
-    startsound.Play();
-    CountDown.SetActive(true);
-    yield return new WaitForSeconds(1.05f);
-    // SpawnVehicle.player.GetComponent<Rigidbody>().isKinematic=false;
-    CountDown.GetComponent<Text>().text="";
+    IEnumerator Countstart()
+    {
+        yield return new WaitForSeconds(0.5f);
+        //  SpawnVehicle.player.GetComponent<Rigidbody>().isKinematic=true;
+        CountDown.GetComponent<Text>().text = "3";
+        startsound.Play();
+        CountDown.SetActive(true);
+        yield return new WaitForSeconds(1.05f);
+        CountDown.SetActive(false);
+        CountDown.GetComponent<Text>().text = "2";
+        startsound.Play();
+        CountDown.SetActive(true);
+        yield return new WaitForSeconds(1.05f);
+        CountDown.SetActive(false);
+        CountDown.GetComponent<Text>().text = "1";
+        startsound.Play();
+        CountDown.SetActive(true);
+        yield return new WaitForSeconds(1.05f);
+        // SpawnVehicle.player.GetComponent<Rigidbody>().isKinematic=false;
+        CountDown.GetComponent<Text>().text = "";
 
-    
-   
 
-    startsound.clip=gosound;
-    startsound.Play();
-    controlpanel.SetActive(false);
-   
-    laptimer.SetActive(true);
 
-}
-     public void loadmainscene(){
-    SceneManager.LoadScene(0);
-   }
+
+        startsound.clip = gosound;
+        startsound.Play();
+        controlpanel.SetActive(false);
+
+        laptimer.SetActive(true);
+
+    }
+    public void loadmainscene()
+    {
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.Disconnect();
+        SceneManager.LoadScene(11);
+    }
 }

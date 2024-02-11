@@ -18,6 +18,7 @@ public class CarCam : MonoBehaviourPun
 
     void Awake()
     {
+        Debug.Log(gameObject.transform.parent.name);
         if (!photonView.IsMine && PlayerPrefs.GetInt("RaceMode") == 4)
         {
             Destroy(this.gameObject);
@@ -33,6 +34,7 @@ public class CarCam : MonoBehaviourPun
     {
         // Detach the camera so that it can move freely on its own.
         rootNode.parent = null;
+
     }
 
     void FixedUpdate()

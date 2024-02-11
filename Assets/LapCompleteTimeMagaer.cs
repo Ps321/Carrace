@@ -75,7 +75,7 @@ public class LapCompleteTimeMagaer : MonoBehaviour
 
       if (PlayerPrefs.GetInt("Lap") < PlayerPrefs.GetInt("Totallap"))
       {
-        laptext.GetComponent<Text>().text = lap + "/2";
+        laptext.GetComponent<Text>().text = lap + "/1";
 
 
       }
