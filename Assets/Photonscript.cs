@@ -18,6 +18,9 @@ public class Photonscript : MonoBehaviourPunCallbacks
 
     public GameObject Loading;
     public indcoin_timer timer;
+    private TypedLobby sqlLobby = new TypedLobby("customSqlLobby", LobbyType.SqlLobby);
+    public const string ELO_PROP_KEY = "C0";
+    public const string MAP_PROP_KEY = "C1";
 
     void Start()
     {
@@ -38,7 +41,8 @@ public class Photonscript : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Photon Master Server");
-        PhotonNetwork.JoinRandomRoom();
+        string sqlLobbyFilter = "C0='indcoins' AND C1 = 'false'";
+        PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, null, sqlLobbyFilter);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -52,6 +56,8 @@ public class Photonscript : MonoBehaviourPunCallbacks
         string roomName = "Room" + Random.Range(1000, 10000); // Generate a random room name
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 6; // Change the value as per your requirement
+        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "C0", "indcoins" }, { "C1", "false" } };
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "C0", "C1" };
         PhotonNetwork.CreateRoom(roomName, roomOptions);
     }
 
@@ -66,6 +72,26 @@ public class Photonscript : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(customPlayerProperties);
         StartCoroutine(ReadPlayerInfo());
         // SpawnPlayer();
+    }
+    void LogRoomCustomProperties(Room room)
+    {
+        Debug.Log("Room Name: " + room.Name);
+
+        // Log each custom property
+        foreach (var entry in room.CustomProperties)
+        {
+            Debug.Log("Custom Property - Key: " + entry.Key + ", Value: " + entry.Value);
+        }
+    }
+
+    // Example usage:
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+
+        // Get the created room and log its custom properties
+        Room createdRoom = PhotonNetwork.CurrentRoom;
+        LogRoomCustomProperties(createdRoom);
     }
 
     void SpawnPlayer()

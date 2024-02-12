@@ -21,7 +21,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        loading.SetActive(true);
+        loading.SetActive(false);
 
         StartCoroutine(Signup1());
     }
