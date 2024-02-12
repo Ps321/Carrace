@@ -18,16 +18,16 @@ public class beforephoton : MonoBehaviour
     }
     public void indcoincheck()
     {
-          indcoinscreen.SetActive(true);
-            indcoinscreen.GetComponent<Photonscript>().ConnectToPhoton();
-        // if (PlayerPrefs.GetInt("ic_balance") < 100)
-        // {
-        //     insufficentbalance.SetActive(true);
-        // }
-        // else
-        // {
-        //     indcoinscreen.SetActive(true);
+        //   indcoinscreen.SetActive(true);
         //     indcoinscreen.GetComponent<Photonscript>().ConnectToPhoton();
-        // }
+        if (PlayerPrefs.GetInt("ic_balance") < 100)
+        {
+            insufficentbalance.SetActive(true);
+        }
+        else
+        {
+            indcoinscreen.SetActive(true);
+            indcoinscreen.GetComponent<Photonscript>().ConnectToPhoton();
+        }
     }
 }

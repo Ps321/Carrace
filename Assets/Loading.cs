@@ -10,7 +10,7 @@ public class Loading : MonoBehaviour
 
     private float fillSpeed = 0.05f; // Adjust this value to control the fill speed
     private float targetFillAmount = 1.0f;
-    private float currentFillAmount = 0.95f;
+    private float currentFillAmount = 0.0f;
 
     private void Start()
     {
