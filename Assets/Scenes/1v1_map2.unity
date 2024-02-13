@@ -2086,6 +2086,63 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.37519372, z: -0.01292181}
     m_Extent: {x: 0.63889635, y: 0.19029318, z: 1.433718}
   m_DirtyAABB: 0
+--- !u!1001 &292190502
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
+      propertyPath: m_Name
+      value: Desert Map Final
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: be2e37d4ce515994899f5bff787836b1, type: 3}
 --- !u!1 &301317629
 GameObject:
   m_ObjectHideFlags: 0
@@ -22885,7 +22942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4159a2e6065e7448681beead553e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 1878154799165475619, guid: 64d5ff9088347724491d9d64ed76c3b3, type: 3}
+  cars: []
   player2: {fileID: 8601490019045494303, guid: c79db884c3dd6884ea8072140027d031, type: 3}
   player3: {fileID: 7023556125717557383, guid: bb725deee7967d244a8f347ef138f081, type: 3}
 --- !u!1 &1854973679

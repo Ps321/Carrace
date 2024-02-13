@@ -8,7 +8,7 @@ public class beforephoton : MonoBehaviour
     public GameObject insufficentbalance;
     void Start()
     {
-
+        PlayerPrefs.SetInt("ic_balance",1000);
     }
 
     // Update is called once per frame

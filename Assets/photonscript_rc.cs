@@ -16,19 +16,51 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
     public int myplayerNumber;
 
     public GameObject Loading;
-    public indcoin_timer timer;
+    public GameObject startingGame;
+    public Text Rank;
+
     private TypedLobby sqlLobby = new TypedLobby("customSqlLobby", LobbyType.SqlLobby);
     public const string ELO_PROP_KEY = "C0";
     public const string MAP_PROP_KEY = "C1";
 
     void Start()
     {
+
+        UpdateRank();
         for (int i = 0; i < 6; i++)
         {
             loading[i].SetActive(true);
         }
         Loading.SetActive(true);
         ConnectToPhoton();
+    }
+    public void UpdateRank()
+    {
+        int a = PlayerPrefs.GetInt("rc_balance");
+        if (a > 0 && a < 3000)
+        {
+            Rank.text = "Bronze";
+        }
+        else if (a > 2999 && a < 3999)
+        {
+            Rank.text = "Silver";
+        }
+        else if (a > 3999 && a < 4999)
+        {
+            Rank.text = "Gold";
+        }
+        else if (a > 4999 && a < 5999)
+        {
+            Rank.text = "Platinum";
+        }
+        else if (a > 5999 && a < 6999)
+        {
+            Rank.text = "Immortal";
+        }
+        else if (a > 6999)
+        {
+            Rank.text = "Conqueror";
+        }
     }
 
     public void ConnectToPhoton()
@@ -39,8 +71,12 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
+        string sqlLobbyFilter = "C0='kjjj' AND C1='false'";
+
         Debug.Log("Connected to Photon Master Server");
-        string sqlLobbyFilter = "C0='indcoins' AND C1 = 'false'";
+
+
+        Debug.Log(sqlLobbyFilter);
         PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, null, sqlLobbyFilter);
     }
 
@@ -54,19 +90,36 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
     {
         string roomName = "Room" + Random.Range(1000, 10000); // Generate a random room name
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 6; // Change the value as per your requirement
-        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "C0", "indcoins" }, { "C1", "false" } };
+        roomOptions.MaxPlayers = 2; // Change the value as per your requirement
+        string rank = Rank.text; // Assuming Rank.text holds the player's rank
+
+        // Set custom properties based on player's rank
+        string c0Value;
+        if (rank == "Conqueror")
+        {
+            c0Value = "racersclubConqueror";
+        }
+        else
+        {
+            c0Value = "racersclub"; // Default value for other ranks
+        }
+
+        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "C0", c0Value }, { "C1", "false" } };
+
         roomOptions.CustomRoomPropertiesForLobby = new string[] { "C0", "C1" };
         PhotonNetwork.CreateRoom(roomName, roomOptions);
     }
 
     public override void OnJoinedRoom()
     {
+        Room createdRoom = PhotonNetwork.CurrentRoom;
+        LogRoomCustomProperties(createdRoom);
         playerNumber++;
         Debug.Log("Joined Room: " + PhotonNetwork.CurrentRoom.Name);
         ExitGames.Client.Photon.Hashtable customPlayerProperties = new ExitGames.Client.Photon.Hashtable();
         customPlayerProperties["PlayerNumber"] = playerNumber;
         customPlayerProperties["Name"] = PlayerPrefs.GetString("name");
+        Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["C0"]);
         // customPlayerProperties.Add("PlayerType", "Racer"); // Example custom player property
         PhotonNetwork.LocalPlayer.SetCustomProperties(customPlayerProperties);
         StartCoroutine(ReadPlayerInfo());
@@ -108,12 +161,14 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
 
     void AssignPlayerNumber(Player player)
     {
+        Rank.text = PhotonNetwork.CurrentRoom.CustomProperties["C0"].ToString();
         if (PhotonNetwork.IsMasterClient)
         {
             playerNumber++;
             player.CustomProperties["PlayerNumber"] = PlayerPrefs.GetString("name");
             player.SetCustomProperties(player.CustomProperties);
-            gameObject.GetPhotonView().RPC("SetPlayerNumber", RpcTarget.AllBuffered, playerNumber);
+            if (PhotonNetwork.PlayerList.Length == 2)
+                gameObject.GetPhotonView().RPC("SetPlayerNumber", RpcTarget.AllBuffered, playerNumber);
         }
 
         // player.NickName = PlayerPrefs.GetString("name");
@@ -141,11 +196,23 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
     {
         playerNumber = number;
         Debug.Log("From RPC Player number set to: " + playerNumber);
-        StartCoroutine(ReadPlayerInfo());
+        // StartCoroutine(ReadPlayerInfo());
+        StartCoroutine(startGame());
+
+    }
+    IEnumerator startGame()
+    {
+
+        yield return new WaitForSeconds(5.0f);
+        startingGame.SetActive(true);
+        yield return new WaitForSeconds(3.0f);
+        startingGame.SetActive(false);
+        SceneManager.LoadScene(3);
     }
 
     IEnumerator ReadPlayerInfo()
     {
+        Rank.text = PhotonNetwork.CurrentRoom.CustomProperties["C0"].ToString();
         yield return new WaitForSeconds(1f); // Wait for some time after joining room to ensure players have synchronized
 
         Player[] players = PhotonNetwork.PlayerList;

@@ -76,7 +76,7 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
         Debug.Log("Local player index out of bounds or spawn points not assigned.");
       }
     }
-
+       Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["C0"]);
     StartCoroutine(en());
     // Iterate through the found GameObjects
 

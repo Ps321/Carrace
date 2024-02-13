@@ -85,6 +85,7 @@ public class logincontroller : MonoBehaviour
 
     IEnumerator checkuser()
     {
+        loading.SetActive(true);
         WWWForm form = new WWWForm();
 
         form.AddField("email", Loginemail.text);
@@ -97,7 +98,7 @@ public class logincontroller : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                SceneManager.LoadScene(0);
+                // SceneManager.LoadScene(0);
                 Debug.Log(www.error);
             }
             else
