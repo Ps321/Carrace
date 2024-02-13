@@ -9,7 +9,7 @@ public class Racersclub : MonoBehaviour
     public GameObject Loading;
     void Start()
     {
-        PlayerPrefs.SetInt("rc_balance",2000);
+        
         Debug.Log("rcrace" + PlayerPrefs.GetInt("rc_balance"));
         if (PlayerPrefs.GetInt("rc_balance") > 0)
         {

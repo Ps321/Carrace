@@ -71,13 +71,14 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        string sqlLobbyFilter = "C0='kjjj' AND C1='false'";
+       
 
         Debug.Log("Connected to Photon Master Server");
 
 
-        Debug.Log(sqlLobbyFilter);
-        PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, null, sqlLobbyFilter);
+        
+        ExitGames.Client.Photon.Hashtable roomTournament = new ExitGames.Client.Photon.Hashtable() { { "C0","racersclub"+Rank.text}, { "C1", "false" } };
+         PhotonNetwork.JoinRandomRoom(roomTournament, 0);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -94,15 +95,9 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
         string rank = Rank.text; // Assuming Rank.text holds the player's rank
 
         // Set custom properties based on player's rank
-        string c0Value;
-        if (rank == "Conqueror")
-        {
-            c0Value = "racersclubConqueror";
-        }
-        else
-        {
-            c0Value = "racersclub"; // Default value for other ranks
-        }
+       
+           string c0Value = "racersclub"+Rank.text; // Default value for other ranks
+        
 
         roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "C0", c0Value }, { "C1", "false" } };
 
