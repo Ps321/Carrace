@@ -17,12 +17,12 @@ public class LapCompleteTimeMagaer : MonoBehaviour
   public GameObject Loosescreen;
   int lap = 0;
   int ailap = 0;
-  float timer = 30.0f;
-  bool start = false;
+  float timer = 60.0f;
+  bool start = true;
 
   private void Start()
   {
-    StartCoroutine(updateindpoint());
+    // StartCoroutine(updateindpoint());
   }
 
   private void Update()
@@ -75,7 +75,7 @@ public class LapCompleteTimeMagaer : MonoBehaviour
 
       if (PlayerPrefs.GetInt("Lap") < PlayerPrefs.GetInt("Totallap"))
       {
-        laptext.GetComponent<Text>().text = lap + "/1";
+        laptext.GetComponent<Text>().text = lap + "/2";
 
 
       }

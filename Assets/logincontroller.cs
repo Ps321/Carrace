@@ -85,7 +85,7 @@ public class logincontroller : MonoBehaviour
 
     IEnumerator checkuser()
     {
-        loading.SetActive(true);
+        // loading.SetActive(true);
         WWWForm form = new WWWForm();
 
         form.AddField("email", Loginemail.text);
@@ -107,7 +107,7 @@ public class logincontroller : MonoBehaviour
                 string s = www.downloadHandler.text.Trim();
                 if (s == "Error")
                 {
-                    t1.text = "User Doesnt Exist Please Signup";
+                    t1.text = "Invalid Email and Password";
                     t1.color = Color.red;
                 }
 

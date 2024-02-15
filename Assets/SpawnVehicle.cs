@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Vehicles.Car;
 
 public class SpawnVehicle : MonoBehaviour
 {
@@ -21,7 +22,13 @@ public class SpawnVehicle : MonoBehaviour
 
 
         player = Instantiate(cars[a], Vector3.zero, Quaternion.Euler(rot));
-
+        player.GetComponent<CarController>().enabled = true;
+        player.GetComponent<CarUserControl>().enabled = true;
+        if (player.transform.GetChild(2).GetComponent<CarCam>())
+        {
+            player.transform.GetChild(2).gameObject.SetActive(true);
+            player.transform.GetChild(2).GetComponent<CarCam>().enabled = true;
+        }
         // GameObject player123=Instantiate(player3,Vector3.zero,Quaternion.identity);
     }
 }

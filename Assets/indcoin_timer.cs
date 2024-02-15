@@ -32,7 +32,7 @@ public class indcoin_timer : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (PhotonNetwork.PlayerList.Count() < 4)
                 {
-                    timer=0;
+                    timer = 0;
                 }
                 else
                 {

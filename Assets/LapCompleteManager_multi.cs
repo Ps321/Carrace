@@ -22,20 +22,24 @@ public class LapCompleteManager_multi : MonoBehaviourPun
   int ailap = 0;
   float timer = 60.0f;
   bool start = true;
-  public int winner=0;
+  public int winner = 0;
 
   public Text winpos;
   public Text amount;
-  int oncedone=0;
+  int oncedone = 0;
 
   private void Start()
   {
-    if(PlayerPrefs.GetInt("gamemode")==2 ){
+
+    if (PlayerPrefs.GetInt("gamemode") == 2)
+    {
       StartCoroutine(Deductindcoins());
-    }else if(PlayerPrefs.GetInt("gamemode")==3 ){
-      StartCoroutine(Deductracercoins());
     }
-    
+    else if (PlayerPrefs.GetInt("gamemode") == 3)
+    {
+      // StartCoroutine(Deductracercoins());
+    }
+
   }
 
   private void Update()
@@ -56,35 +60,40 @@ public class LapCompleteManager_multi : MonoBehaviourPun
 
 
 
-  
+
 
     // StartCoroutine(lapreset());
 
-Debug.Log("aaya"+lap);
-Debug.Log("aaya"+other.gameObject.transform.parent.transform.parent.name);
+    Debug.Log("aaya" + lap);
+    Debug.Log("aaya" + other.gameObject.transform.parent.transform.parent.name);
     int i = Array.IndexOf(PhotonNetwork.PlayerList, PhotonNetwork.LocalPlayer);
 
-    
-    if (lap == 0 && other.gameObject.transform.parent.transform.parent.GetComponent<PhotonView>().IsMine && oncedone==0 && start==false)
+
+    if (lap == 0 && other.gameObject.transform.parent.transform.parent.GetComponent<PhotonView>().IsMine && oncedone == 0 && start == false)
     {
-        lap++;
-       winner=winner+1;
-       winpos.text=(winner).ToString();
-      if(winner==1){
-        amount.text="300";
+      lap++;
+      winner = winner + 1;
+      winpos.text = (winner).ToString();
+      if (winner == 1)
+      {
+        amount.text = "300";
       }
-      else if(winner==2){
-        amount.text="200";
+      else if (winner == 2)
+      {
+        amount.text = "200";
       }
-      else if(winner==3){
-        amount.text="100";
-      }else{
-        amount.text="0";
+      else if (winner == 3)
+      {
+        amount.text = "100";
+      }
+      else
+      {
+        amount.text = "0";
       }
       Winscreen.SetActive(true);
       Updatecoins();
       gameObject.GetPhotonView().RPC("SetwinnerNumber", RpcTarget.AllBuffered, winner);
-        oncedone=1;
+      oncedone = 1;
     }
     // else if (lap == 1)
     // {
@@ -100,19 +109,23 @@ Debug.Log("aaya"+other.gameObject.transform.parent.transform.parent.name);
     this.gameObject.GetComponent<BoxCollider>().enabled = true;
   }
 
-    [PunRPC]
-    public void SetwinnerNumber(int number)
-    {
-        winner++;
-        // StartCoroutine(ReadPlayerInfo());
-       
-     
+  [PunRPC]
+  public void SetwinnerNumber(int number)
+  {
+    winner++;
+    // StartCoroutine(ReadPlayerInfo());
 
-    }
-  public void Updatecoins(){
-    if(PlayerPrefs.GetInt("gamemode")==2 && int.Parse(amount.text)>0){
+
+
+  }
+  public void Updatecoins()
+  {
+    if (PlayerPrefs.GetInt("gamemode") == 2 && int.Parse(amount.text) > 0)
+    {
       StartCoroutine(updateindpoint(int.Parse(amount.text)));
-    }else if(PlayerPrefs.GetInt("gamemode")==3 && int.Parse(amount.text)>0){
+    }
+    else if (PlayerPrefs.GetInt("gamemode") == 3 && int.Parse(amount.text) > 0)
+    {
       StartCoroutine(updateracerpoint(int.Parse(amount.text)));
     }
   }

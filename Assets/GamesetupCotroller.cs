@@ -64,9 +64,10 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
           GameObject playerCar = PhotonNetwork.Instantiate(playerCarPrefab.name, spawnPosition, spawnRotation);
           playerCar.transform.GetChild(2).GetComponent<CarCam>().enabled = true;
           // players1[0] = playerCar;
-        if(SceneManager.GetActiveScene().buildIndex==10){
-          playerCar.transform.rotation=Quaternion.EulerAngles(0,-90,0);
-        }
+          if (SceneManager.GetActiveScene().buildIndex == 10)
+          {
+            playerCar.transform.rotation = Quaternion.EulerAngles(0, -90, 0);
+          }
 
           // Set the owner of the car to the respective player
           // playerCar.GetComponent<PhotonView>().TransferOwnership(players[i]);
@@ -106,7 +107,11 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
           car.GetComponent<CarController>().enabled = true;
           car.GetComponent<CarUserControl>().enabled = true;
           if (car.transform.GetChild(2).GetComponent<CarCam>())
+          {
             car.transform.GetChild(2).gameObject.SetActive(true);
+
+          }
+
 
 
         }

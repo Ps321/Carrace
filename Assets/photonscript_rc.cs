@@ -38,30 +38,27 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
     public void UpdateRank()
     {
         int a = PlayerPrefs.GetInt("rc_balance");
-        if (a > 0 && a < 3000)
+        if (a > 0 && a < 15000)
         {
-            Rank.text = "Bronze";
+            Rank.text = "Club racers";
         }
-        else if (a > 2999 && a < 3999)
+        else if (a > 15000 && a < 40000)
         {
-            Rank.text = "Silver";
+            Rank.text = "Dare Racers";
         }
-        else if (a > 3999 && a < 4999)
+        else if (a > 40000 && a < 65000)
         {
-            Rank.text = "Gold";
+            Rank.text = "Dangerous Racers";
         }
-        else if (a > 4999 && a < 5999)
+        else if (a > 65000 && a < 80000)
         {
-            Rank.text = "Platinum";
+            Rank.text = "Notorious Racers";
         }
-        else if (a > 5999 && a < 6999)
+        else if (a > 80000 && a < 100000)
         {
-            Rank.text = "Immortal";
+            Rank.text = "Real Racers";
         }
-        else if (a > 6999)
-        {
-            Rank.text = "Conqueror";
-        }
+
     }
 
     public void ConnectToPhoton()
@@ -93,7 +90,7 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
     {
         string roomName = "Room" + Random.Range(1000, 10000); // Generate a random room name
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 2; // Change the value as per your requirement
+        roomOptions.MaxPlayers = 6; // Change the value as per your requirement
         string rank = Rank.text; // Assuming Rank.text holds the player's rank
 
         // Set custom properties based on player's rank
@@ -102,7 +99,7 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
 
 
         int randomNumber = Random.Range(0, 2);
-        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "C0", "indcoins" }, { "C1", "false" }, { "C2", randomNumber } };
+        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "C0", "racersclub" + Rank.text }, { "C1", "false" }, { "C2", randomNumber } };
         roomOptions.CustomRoomPropertiesForLobby = new string[] { "C0", "C1", "C2" };
         PhotonNetwork.CreateRoom(roomName, roomOptions);
     }
@@ -167,7 +164,7 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
 
     void AssignPlayerNumber(Player player)
     {
-        Rank.text = PhotonNetwork.CurrentRoom.CustomProperties["C0"].ToString();
+        // Rank.text = PhotonNetwork.CurrentRoom.CustomProperties["C0"].ToString();
         if (PhotonNetwork.IsMasterClient)
         {
             playerNumber++;
@@ -244,7 +241,7 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
 
     IEnumerator ReadPlayerInfo()
     {
-        Rank.text = PhotonNetwork.CurrentRoom.CustomProperties["C0"].ToString();
+        // Rank.text = PhotonNetwork.CurrentRoom.CustomProperties["C0"].ToString();
         yield return new WaitForSeconds(1f); // Wait for some time after joining room to ensure players have synchronized
 
         Player[] players = PhotonNetwork.PlayerList;
