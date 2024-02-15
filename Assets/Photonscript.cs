@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+// using System;
 
 public class Photonscript : MonoBehaviourPunCallbacks
 {
@@ -21,6 +22,8 @@ public class Photonscript : MonoBehaviourPunCallbacks
     private TypedLobby sqlLobby = new TypedLobby("customSqlLobby", LobbyType.SqlLobby);
     public const string ELO_PROP_KEY = "C0";
     public const string MAP_PROP_KEY = "C1";
+    public Text mapname;
+
 
     void Start()
     {
@@ -42,12 +45,16 @@ public class Photonscript : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connected to Photon Master Server");
         string sqlLobbyFilter = "C0='indcoins' AND C1 = 'false'";
-        PhotonNetwork.JoinRandomRoom(null, 0, MatchmakingMode.FillRoom, null, sqlLobbyFilter);
+         PlayerPrefs.SetInt("gamemode",2);
+          ExitGames.Client.Photon.Hashtable roomTournament = new ExitGames.Client.Photon.Hashtable() { { "C0","indcoins"}, { "C1", "false" } };
+       
+        PhotonNetwork.JoinRandomRoom(roomTournament, 0);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("No random room available, creating a new room...");
+       
         CreateRoom();
     }
 
@@ -56,8 +63,9 @@ public class Photonscript : MonoBehaviourPunCallbacks
         string roomName = "Room" + Random.Range(1000, 10000); // Generate a random room name
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 6; // Change the value as per your requirement
-        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "C0", "indcoins" }, { "C1", "false" } };
-        roomOptions.CustomRoomPropertiesForLobby = new string[] { "C0", "C1" };
+        int randomNumber = Random.Range(0, 2);
+        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "C0", "indcoins" }, { "C1", "false" },{"C2",randomNumber} };
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "C0", "C1","C2" };
         PhotonNetwork.CreateRoom(roomName, roomOptions);
     }
 
@@ -71,6 +79,14 @@ public class Photonscript : MonoBehaviourPunCallbacks
         // customPlayerProperties.Add("PlayerType", "Racer"); // Example custom player property
         PhotonNetwork.LocalPlayer.SetCustomProperties(customPlayerProperties);
         StartCoroutine(ReadPlayerInfo());
+        if (int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["C2"].ToString()) == 0)
+        {
+            mapname.text="Highway Riders";
+        }
+        else
+        {
+            mapname.text="Desert Storm";
+        }
         // SpawnPlayer();
     }
     void LogRoomCustomProperties(Room room)

@@ -39,8 +39,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Timer_map2.unity
     guid: c467fd4f9dd098744b6ad99790f38951
   - enabled: 1
-    path: Assets/Scenes/Multiplaye_map2.unity
-    guid: eeef54c6a68576344899b4dc1f25fce1
+    path: Assets/Scenes/Multiplaye_map2v02.unity
+    guid: c08f9d4d27262844cbacdae664cfd4c5
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab

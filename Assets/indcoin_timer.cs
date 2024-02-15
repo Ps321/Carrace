@@ -4,6 +4,7 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using ExitGames.Client.Photon;
+using System.Linq;
 public class indcoin_timer : MonoBehaviourPunCallbacks, IPunObservable
 {
     private float timer;
@@ -29,32 +30,40 @@ public class indcoin_timer : MonoBehaviourPunCallbacks, IPunObservable
             timeleft.text = Mathf.CeilToInt(maxTime - timer).ToString();
             if (timer >= maxTime)
             {
-                // Timer has reached max time, do something
-                Debug.Log("Timer reached max time!");
-                isTimerRunning = false;
-                if (PhotonNetwork.InRoom)
+                if (PhotonNetwork.PlayerList.Count() < 4)
                 {
-                    Room currentRoom = PhotonNetwork.CurrentRoom;
-
-                    // Create a Hashtable to store the updated custom properties
-                    Hashtable customProperties = new Hashtable();
-
-                    // Add or update custom properties as needed
-                    customProperties["C1"] = "True";
-
-
-                    currentRoom.IsOpen = false;
-
-                    // Update the room properties to reflect the change
-                    currentRoom.SetCustomProperties(new Hashtable() { { "IsOpen", false } });
-                    // Update the room custom properties
-                    currentRoom.SetCustomProperties(customProperties);
+                    timer=0;
                 }
-                // foreach (var entry in PhotonNetwork.CurrentRoom.CustomProperties)
-                // {
-                //     Debug.Log("Custom Property - Key: " + entry.Key + ", Value: " + entry.Value);
-                // }
-                // SceneManager.LoadScene(3);
+                else
+                {
+
+
+                    Debug.Log("Timer reached max time!");
+                    isTimerRunning = false;
+                    if (PhotonNetwork.InRoom)
+                    {
+                        Room currentRoom = PhotonNetwork.CurrentRoom;
+
+                        // Create a Hashtable to store the updated custom properties
+                        Hashtable customProperties = new Hashtable();
+
+                        // Add or update custom properties as needed
+                        customProperties["C1"] = "True";
+
+
+                        currentRoom.IsOpen = false;
+
+                        // Update the room properties to reflect the change
+                        currentRoom.SetCustomProperties(new Hashtable() { { "IsOpen", false } });
+                        // Update the room custom properties
+                        currentRoom.SetCustomProperties(customProperties);
+                    }
+                    // foreach (var entry in PhotonNetwork.CurrentRoom.CustomProperties)
+                    // {
+                    //     Debug.Log("Custom Property - Key: " + entry.Key + ", Value: " + entry.Value);
+                    // }
+                    // SceneManager.LoadScene(3);
+                }
             }
         }
     }
@@ -65,7 +74,15 @@ public class indcoin_timer : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (entry.Key.ToString() == "C1" && propertiesThatChanged["C1"].ToString() == "True")
             {
-                SceneManager.LoadScene(3);
+                if (int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["C2"].ToString()) == 0)
+                {
+                    SceneManager.LoadScene(3);
+                }
+                else
+                {
+                    SceneManager.LoadScene(10);
+                }
+
             }
         }
     }

@@ -43,6 +43,7 @@ MonoBehaviour:
   - RPCStartGame
   - SetPlayerNumber
   - enableit
+  - SetwinnerNumber
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

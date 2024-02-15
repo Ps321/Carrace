@@ -18,6 +18,7 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
     public GameObject Loading;
     public GameObject startingGame;
     public Text Rank;
+    public Text mapname;
 
     private TypedLobby sqlLobby = new TypedLobby("customSqlLobby", LobbyType.SqlLobby);
     public const string ELO_PROP_KEY = "C0";
@@ -71,14 +72,15 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-       
+
 
         Debug.Log("Connected to Photon Master Server");
 
 
-        
-        ExitGames.Client.Photon.Hashtable roomTournament = new ExitGames.Client.Photon.Hashtable() { { "C0","racersclub"+Rank.text}, { "C1", "false" } };
-         PhotonNetwork.JoinRandomRoom(roomTournament, 0);
+
+        ExitGames.Client.Photon.Hashtable roomTournament = new ExitGames.Client.Photon.Hashtable() { { "C0", "racersclub" + Rank.text }, { "C1", "false" } };
+        PlayerPrefs.SetInt("gamemode", 2);
+        PhotonNetwork.JoinRandomRoom(roomTournament, 0);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -95,13 +97,13 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
         string rank = Rank.text; // Assuming Rank.text holds the player's rank
 
         // Set custom properties based on player's rank
-       
-           string c0Value = "racersclub"+Rank.text; // Default value for other ranks
-        
 
-        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "C0", c0Value }, { "C1", "false" } };
+        string c0Value = "racersclub" + Rank.text; // Default value for other ranks
 
-        roomOptions.CustomRoomPropertiesForLobby = new string[] { "C0", "C1" };
+
+        int randomNumber = Random.Range(0, 2);
+        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "C0", "indcoins" }, { "C1", "false" }, { "C2", randomNumber } };
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "C0", "C1", "C2" };
         PhotonNetwork.CreateRoom(roomName, roomOptions);
     }
 
@@ -118,6 +120,15 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
         // customPlayerProperties.Add("PlayerType", "Racer"); // Example custom player property
         PhotonNetwork.LocalPlayer.SetCustomProperties(customPlayerProperties);
         StartCoroutine(ReadPlayerInfo());
+        if (int.Parse(createdRoom.CustomProperties["C2"].ToString()) == 0)
+        {
+            mapname.text = "Highway Riders";
+        }
+        else
+        {
+            mapname.text = "Desert Storm";
+        }
+
         // SpawnPlayer();
     }
     void LogRoomCustomProperties(Room room)
@@ -162,7 +173,7 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
             playerNumber++;
             player.CustomProperties["PlayerNumber"] = PlayerPrefs.GetString("name");
             player.SetCustomProperties(player.CustomProperties);
-            if (PhotonNetwork.PlayerList.Length == 2)
+            if (PhotonNetwork.PlayerList.Length == PhotonNetwork.CurrentRoom.MaxPlayers)
                 gameObject.GetPhotonView().RPC("SetPlayerNumber", RpcTarget.AllBuffered, playerNumber);
         }
 
@@ -200,9 +211,35 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
 
         yield return new WaitForSeconds(5.0f);
         startingGame.SetActive(true);
+
+        if (PhotonNetwork.InRoom)
+        {
+            Room currentRoom = PhotonNetwork.CurrentRoom;
+
+            // Create a Hashtable to store the updated custom properties
+            ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
+
+            // Add or update custom properties as needed
+            customProperties["C1"] = "True";
+
+
+            currentRoom.IsOpen = false;
+
+            // Update the room properties to reflect the change
+            currentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "IsOpen", false } });
+            // Update the room custom properties
+            currentRoom.SetCustomProperties(customProperties);
+        }
         yield return new WaitForSeconds(3.0f);
         startingGame.SetActive(false);
-        SceneManager.LoadScene(3);
+        if (int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["C2"].ToString()) == 0)
+        {
+            SceneManager.LoadScene(3);
+        }
+        else
+        {
+            SceneManager.LoadScene(10);
+        }
     }
 
     IEnumerator ReadPlayerInfo()

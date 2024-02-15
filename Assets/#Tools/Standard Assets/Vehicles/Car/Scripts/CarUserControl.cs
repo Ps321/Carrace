@@ -10,7 +10,7 @@ namespace UnityStandardAssets.Vehicles.Car
     {
         private CarController m_Car; // the car controller we want to use
 
-
+        
         private void Awake()
         {
             // get the car controller
@@ -32,7 +32,12 @@ if(!photonView.IsMine && PlayerPrefs.GetInt("RaceMode")==4){
            
 #if !MOBILE_INPUT
             float handbrake = CrossPlatformInputManager.GetAxis("Jump");
-            m_Car.Move(h, v, v, handbrake);
+            if(m_Car.boost){
+                m_Car.Move(h, v, v, handbrake);
+            }else{
+                m_Car.Move(h, v, v, handbrake);
+            }
+            
 #else
             m_Car.Move(h, v, v, 0f);
 #endif

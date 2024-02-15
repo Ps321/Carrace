@@ -17694,7 +17694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.45752, y: -506}
+  m_AnchoredPosition: {x: 23.45752, y: -371}
   m_SizeDelta: {x: 468, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721170077
@@ -25778,6 +25778,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 811992885}
   - {fileID: 811992885}
+  cars: []
 --- !u!4 &1847391568
 Transform:
   m_ObjectHideFlags: 0
@@ -25805,7 +25806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cars:
-  - {fileID: 1663699354319473585, guid: 5a368a054e7149b45bfd0a233c655c75, type: 3}
+  - {fileID: 1663699354319473585, guid: 9d1eb00550c7fbe4199d8e97edecc428, type: 3}
   - {fileID: 4040726459426945187, guid: 8fa807e01a02cda4391e97b986952220, type: 3}
   - {fileID: 420494986015621968, guid: b85fcd5bae53a9e4aa7d5eb04e8baf13, type: 3}
   - {fileID: 6530917725158246685, guid: d9883ed5980856a41a2cb5ef20192a07, type: 3}
@@ -27211,7 +27212,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23.45752, y: -515}
+  m_AnchoredPosition: {x: 23.45752, y: -397}
   m_SizeDelta: {x: 468, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2022204542
@@ -39296,6 +39297,7 @@ MonoBehaviour:
   m_Downforce: 100
   m_SpeedType: 0
   m_Topspeed: 50
+  boost: 0
   m_RevRangeBoundary: 1
   m_SlipLimit: 0.3
   m_BrakeTorque: 20000

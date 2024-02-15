@@ -7,6 +7,7 @@ using System.IO;
 using System;
 using UnityStandardAssets.Vehicles.Car;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class GamesetupCotroller : MonoBehaviourPunCallbacks
 {
@@ -16,12 +17,13 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
   public Transform[] spawnPoints;
   public static GameObject[] players1;
   private GameObject playerCar;
+  public GameObject[] cars;
   int enable = 0;
   bool enn = false;
   // Start is called before the first frame update
   void Start()
   {
-    PlayerPrefs.SetInt("carnumber", 0);
+
 
     CreatePlayer();
 
@@ -43,25 +45,28 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
 
         // Instantiate the player's car based on some condition (e.g., PlayerPrefs.GetInt("carnumber"))
         // Example:
-        if (PlayerPrefs.GetInt("carnumber") == 0)
-        {
-          playerCarPrefab = Resources.Load<GameObject>("Player");
-        }
-        else if (PlayerPrefs.GetInt("carnumber") == 1)
-        {
-          playerCarPrefab = Resources.Load<GameObject>("Player1");
-        }
-        else if (PlayerPrefs.GetInt("carnumber") == 2)
-        {
-          playerCarPrefab = Resources.Load<GameObject>("Player2");
-        }
+        // if (PlayerPrefs.GetInt("carnumber") == 0)
+        // {
+        //   playerCarPrefab = Resources.Load<GameObject>("Player");
+        // }
+        // else if (PlayerPrefs.GetInt("carnumber") == 1)
+        // {
+        //   playerCarPrefab = Resources.Load<GameObject>("Player1");
+        // }
+        // else if (PlayerPrefs.GetInt("carnumber") == 2)
+        // {
+        //   playerCarPrefab = Resources.Load<GameObject>("Player2");
+        // }
+        playerCarPrefab = cars[PlayerPrefs.GetInt("carnumber")];
 
         if (playerCarPrefab != null)
         {
           GameObject playerCar = PhotonNetwork.Instantiate(playerCarPrefab.name, spawnPosition, spawnRotation);
           playerCar.transform.GetChild(2).GetComponent<CarCam>().enabled = true;
           // players1[0] = playerCar;
-
+        if(SceneManager.GetActiveScene().buildIndex==10){
+          playerCar.transform.rotation=Quaternion.EulerAngles(0,-90,0);
+        }
 
           // Set the owner of the car to the respective player
           // playerCar.GetComponent<PhotonView>().TransferOwnership(players[i]);
@@ -76,7 +81,7 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
         Debug.Log("Local player index out of bounds or spawn points not assigned.");
       }
     }
-       Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["C0"]);
+    Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["C0"]);
     StartCoroutine(en());
     // Iterate through the found GameObjects
 
@@ -123,6 +128,12 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
   {
     yield return new WaitForSeconds(0.5f);
     enable = 1;
+  }
+  public void Mainlobby()
+  {
+    PhotonNetwork.LeaveRoom();
+    PhotonNetwork.Disconnect();
+    SceneManager.LoadScene(11);
   }
   // Update is called once per frame
   [PunRPC]
