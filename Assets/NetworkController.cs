@@ -18,6 +18,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
     public Text indpoints_gm;
     public Text indCoins_gm;
     public Text racerspoints_gm;
+    public Text racerspoints_gm2;
     // Start is called before the first frame update
     void Start()
     {
@@ -77,6 +78,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
                     indpoints_gm.text = result[4];
                     indCoins_gm.text = result[5];
                     racerspoints_gm.text = result[6];
+                    racerspoints_gm2.text = result[6];
                     PlayerPrefs.SetInt("ip_balance", int.Parse(result[4]));
                     PlayerPrefs.SetInt("ic_balance", int.Parse(result[5]));
                     PlayerPrefs.SetInt("rc_balance", int.Parse(result[6]));

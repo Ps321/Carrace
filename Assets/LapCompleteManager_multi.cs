@@ -20,13 +20,14 @@ public class LapCompleteManager_multi : MonoBehaviourPun
   public GameObject Loosescreen;
   public static int lap = 0;
   int ailap = 0;
-  float timer = 60.0f;
+  float timer = 5.0f;
   bool start = true;
   public int winner = 0;
 
   public Text winpos;
   public Text amount;
   int oncedone = 0;
+  public int[] arr = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
   private void Start()
   {
@@ -37,6 +38,8 @@ public class LapCompleteManager_multi : MonoBehaviourPun
     }
     else if (PlayerPrefs.GetInt("gamemode") == 3)
     {
+      if (PhotonNetwork.IsMasterClient)
+        StartCoroutine(racerclubdata());
       // StartCoroutine(Deductracercoins());
     }
 
@@ -67,6 +70,15 @@ public class LapCompleteManager_multi : MonoBehaviourPun
     Debug.Log("aaya" + lap);
     Debug.Log("aaya" + other.gameObject.transform.parent.transform.parent.name);
     int i = Array.IndexOf(PhotonNetwork.PlayerList, PhotonNetwork.LocalPlayer);
+
+    int checklaps = 0;
+    for (int i1 = 0; i1 < arr.Length; i1++)
+    {
+      if (arr[i1] == 0)
+      {
+        return;
+      }
+    }
 
 
     if (lap == 0 && other.gameObject.transform.parent.transform.parent.GetComponent<PhotonView>().IsMine && oncedone == 0 && start == false)
@@ -137,9 +149,12 @@ public class LapCompleteManager_multi : MonoBehaviourPun
   IEnumerator updateindpoint(int points)
   {
     WWWForm form = new WWWForm();
-
+    form.AddField("name", PlayerPrefs.GetString("name"));
     form.AddField("email", PlayerPrefs.GetString("email"));
     form.AddField("value", points);
+    form.AddField("roomname", PhotonNetwork.CurrentRoom.Name);
+    form.AddField("racetype", PlayerPrefs.GetInt("gamemode") == 2 ? "Ind Coins" : "Racer's Club");
+    form.AddField("position", winpos.text);
 
 
 
@@ -177,8 +192,12 @@ public class LapCompleteManager_multi : MonoBehaviourPun
   {
     WWWForm form = new WWWForm();
 
+    form.AddField("name", PlayerPrefs.GetString("name"));
     form.AddField("email", PlayerPrefs.GetString("email"));
     form.AddField("value", points);
+    form.AddField("roomname", PhotonNetwork.CurrentRoom.Name);
+    form.AddField("racetype", PlayerPrefs.GetInt("gamemode") == 2 ? "Ind Coins" : "Racer's Club");
+    form.AddField("position", winpos.text);
 
 
 
@@ -245,12 +264,106 @@ public class LapCompleteManager_multi : MonoBehaviourPun
         {
 
           Debug.Log(s); //Output 1
+          if (PhotonNetwork.IsMasterClient)
+            StartCoroutine(indcoindata());
+        }
+      }
+
+    }
+  }
+  IEnumerator indcoindata()
+  {
+    WWWForm form = new WWWForm();
+
+    form.AddField("roomname", PhotonNetwork.CurrentRoom.Name);
+    form.AddField("racetype", "Ind Coins");
+    Player[] players = PhotonNetwork.PlayerList;
+    form.AddField("player1", (players.Length >= 1 && players[0] != null) ? players[0].CustomProperties["Name"].ToString() : "NA");
+    form.AddField("player2", (players.Length >= 2 && players[1] != null) ? players[1].CustomProperties["Name"].ToString() : "NA");
+    form.AddField("player3", (players.Length >= 3 && players[2] != null) ? players[2].CustomProperties["Name"].ToString() : "NA");
+    form.AddField("player4", (players.Length >= 4 && players[3] != null) ? players[3].CustomProperties["Name"].ToString() : "NA");
+    form.AddField("player5", (players.Length >= 5 && players[4] != null) ? players[4].CustomProperties["Name"].ToString() : "NA");
+    form.AddField("player6", (players.Length >= 6 && players[5] != null) ? players[5].CustomProperties["Name"].ToString() : "NA");
+
+
+
+
+    using (UnityWebRequest www = UnityWebRequest.Post("http://indgamesia.com/indcoinsrace.php", form))
+    {
+      yield return www.SendWebRequest();
+
+      if (www.result != UnityWebRequest.Result.Success)
+      {
+        // SceneManager.LoadScene(0);
+        Debug.Log(www.error);
+      }
+      else
+      {
+        //Debug.Log(www.downloadHandler.text);
+        string s = www.downloadHandler.text.Trim();
+        if (s == "Error")
+        {
+          // t.text = "User Already Exist";
+          // t.color = Color.red;
+        }
+
+        else
+        {
+
+          Debug.Log(s); //Output 1
 
         }
       }
 
     }
   }
+  IEnumerator racerclubdata()
+  {
+    WWWForm form = new WWWForm();
+
+    form.AddField("roomname", PhotonNetwork.CurrentRoom.Name);
+    form.AddField("racetype", "Racers Club");
+    Player[] players = PhotonNetwork.PlayerList;
+    form.AddField("player1", (players.Length >= 1 && players[0] != null) ? players[0].CustomProperties["Name"].ToString() : "NA");
+    form.AddField("player2", (players.Length >= 2 && players[1] != null) ? players[1].CustomProperties["Name"].ToString() : "NA");
+    form.AddField("player3", (players.Length >= 3 && players[2] != null) ? players[2].CustomProperties["Name"].ToString() : "NA");
+    form.AddField("player4", (players.Length >= 4 && players[3] != null) ? players[3].CustomProperties["Name"].ToString() : "NA");
+    form.AddField("player5", (players.Length >= 5 && players[4] != null) ? players[4].CustomProperties["Name"].ToString() : "NA");
+    form.AddField("player6", (players.Length >= 6 && players[5] != null) ? players[5].CustomProperties["Name"].ToString() : "NA");
+
+
+
+
+    using (UnityWebRequest www = UnityWebRequest.Post("http://indgamesia.com/indcoinsrace.php", form))
+    {
+      yield return www.SendWebRequest();
+
+      if (www.result != UnityWebRequest.Result.Success)
+      {
+        // SceneManager.LoadScene(0);
+        Debug.Log(www.error);
+      }
+      else
+      {
+        //Debug.Log(www.downloadHandler.text);
+        string s = www.downloadHandler.text.Trim();
+        if (s == "Error")
+        {
+          // t.text = "User Already Exist";
+          // t.color = Color.red;
+        }
+
+        else
+        {
+
+          Debug.Log(s); //Output 1
+
+        }
+      }
+
+    }
+  }
+
   IEnumerator Deductracercoins()
   {
     WWWForm form = new WWWForm();

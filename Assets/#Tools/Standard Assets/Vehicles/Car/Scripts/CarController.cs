@@ -143,6 +143,10 @@ namespace UnityStandardAssets.Vehicles.Car
                 m_WheelMeshes[i].transform.position = position;
                 m_WheelMeshes[i].transform.rotation = quat;
             }
+            if (boost)
+            {
+                m_Rigidbody.AddForce(transform.forward * 10, ForceMode.Acceleration);
+            }
 
             //clamp input values
             steering = Mathf.Clamp(steering, -1, 1);
@@ -162,7 +166,7 @@ namespace UnityStandardAssets.Vehicles.Car
 
             //Set the handbrake.
             //Assuming that wheels 2 and 3 are the rear wheels.
-            if (handbrake > 0f)
+            if (handbrake >= 0f)
             {
                 var hbTorque = handbrake * m_MaxHandbrakeTorque;
                 m_WheelColliders[2].brakeTorque = hbTorque;
@@ -193,11 +197,7 @@ namespace UnityStandardAssets.Vehicles.Car
                     }
                     else
                     {
-                        if (boost)
-                        {
-                            // m_Rigidbody.velocity *= 1.00001f;
-                            m_Rigidbody.velocity = (m_Topspeed / 2.23693629f) * m_Rigidbody.velocity.normalized;
-                        }
+
                     }
 
                     break;
@@ -210,11 +210,7 @@ namespace UnityStandardAssets.Vehicles.Car
                     }
                     else
                     {
-                        if (boost)
-                        {
-                            // m_Rigidbody.velocity *= 1.00001f;
-                            m_Rigidbody.velocity = (m_Topspeed / 3.6f) * m_Rigidbody.velocity.normalized;
-                        }
+
                     }
                     break;
             }
@@ -229,10 +225,12 @@ namespace UnityStandardAssets.Vehicles.Car
             {
                 case CarDriveType.FourWheelDrive:
                     thrustTorque = accel * (m_CurrentTorque / 4f);
+
                     for (int i = 0; i < 4; i++)
                     {
-                       
+
                         m_WheelColliders[i].motorTorque = thrustTorque;
+
                     }
                     break;
 

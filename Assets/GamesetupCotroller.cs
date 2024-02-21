@@ -23,7 +23,10 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
   // Start is called before the first frame update
   void Start()
   {
-
+    if (SceneManager.GetActiveScene().name == "Training_map2" || SceneManager.GetActiveScene().name == "Training_map1")
+    {
+      enable = 1;
+    }
 
     CreatePlayer();
 
@@ -34,55 +37,47 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
   {
 
     Player[] players = PhotonNetwork.PlayerList;
-    for (int i = 0; i < players.Length; i++)
+
+    int index = Array.IndexOf(players, PhotonNetwork.LocalPlayer);
+    if (index != -1 && index < spawnPoints.Length)
     {
-      int index = Array.IndexOf(PhotonNetwork.PlayerList, players[i]);
-      if (index != -1 && index < spawnPoints.Length && players[i] == PhotonNetwork.LocalPlayer)
+      Vector3 spawnPosition = spawnPoints[index].position;
+      Quaternion spawnRotation = Quaternion.identity;
+      GameObject playerCarPrefab = null;
+
+
+      playerCarPrefab = cars[PlayerPrefs.GetInt("carnumber")];
+
+      if (playerCarPrefab != null)
       {
-        Vector3 spawnPosition = spawnPoints[index].position;
-        Quaternion spawnRotation = Quaternion.identity;
-        GameObject playerCarPrefab = null;
+        GameObject playerCar = PhotonNetwork.Instantiate(playerCarPrefab.name, spawnPosition, spawnRotation);
+        playerCar.transform.GetChild(2).GetComponent<CarCam>().enabled = true;
 
-        // Instantiate the player's car based on some condition (e.g., PlayerPrefs.GetInt("carnumber"))
-        // Example:
-        // if (PlayerPrefs.GetInt("carnumber") == 0)
-        // {
-        //   playerCarPrefab = Resources.Load<GameObject>("Player");
-        // }
-        // else if (PlayerPrefs.GetInt("carnumber") == 1)
-        // {
-        //   playerCarPrefab = Resources.Load<GameObject>("Player1");
-        // }
-        // else if (PlayerPrefs.GetInt("carnumber") == 2)
-        // {
-        //   playerCarPrefab = Resources.Load<GameObject>("Player2");
-        // }
-        playerCarPrefab = cars[PlayerPrefs.GetInt("carnumber")];
-
-        if (playerCarPrefab != null)
+        // players1[0] = playerCar;
+        if (SceneManager.GetActiveScene().buildIndex == 10)
         {
-          GameObject playerCar = PhotonNetwork.Instantiate(playerCarPrefab.name, spawnPosition, spawnRotation);
-          playerCar.transform.GetChild(2).GetComponent<CarCam>().enabled = true;
-          // players1[0] = playerCar;
-          if (SceneManager.GetActiveScene().buildIndex == 10)
-          {
-            playerCar.transform.rotation = Quaternion.EulerAngles(0, -90, 0);
-          }
+          playerCar.transform.rotation = Quaternion.EulerAngles(0, -90, 0);
+        }
+        // if (SceneManager.GetActiveScene().buildIndex == 3)
+        // {
+        //   playerCar.transform.rotation = Quaternion.EulerAngles(0, 45, 0);
+        // }
 
-          // Set the owner of the car to the respective player
-          // playerCar.GetComponent<PhotonView>().TransferOwnership(players[i]);
-        }
-        else
-        {
-          Debug.LogError("Failed to load player car prefab.");
-        }
+
+        // Set the owner of the car to the respective player
+        // playerCar.GetComponent<PhotonView>().TransferOwnership(players[i]);
       }
       else
       {
-        Debug.Log("Local player index out of bounds or spawn points not assigned.");
+        Debug.LogError("Failed to load player car prefab.");
       }
     }
-    Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["C0"]);
+    else
+    {
+      Debug.Log("Local player index out of bounds or spawn points not assigned.");
+    }
+
+    // Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["C0"]);
     StartCoroutine(en());
     // Iterate through the found GameObjects
 
@@ -106,6 +101,7 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
           // Example:
           car.GetComponent<CarController>().enabled = true;
           car.GetComponent<CarUserControl>().enabled = true;
+          car.layer = 6;
           if (car.transform.GetChild(2).GetComponent<CarCam>())
           {
             car.transform.GetChild(2).gameObject.SetActive(true);
@@ -121,6 +117,7 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
           // Example:
           car.GetComponent<CarController>().enabled = false;
           car.GetComponent<CarUserControl>().enabled = false;
+          car.GetComponent<speedometer>().enabled = false;
           if (car.transform.GetChild(0).GetComponent<minimapscript>())
           {
             Destroy(car.transform.GetChild(0));
@@ -148,9 +145,9 @@ public class GamesetupCotroller : MonoBehaviourPunCallbacks
 
   }
 
-  [PunRPC]
-  void RPCStartGame(Vector3 spawnposition, Quaternion spawnrotaion)
-  {
-    PhotonNetwork.Instantiate("Player", spawnposition, spawnrotaion, 0);
-  }
+  // [PunRPC]
+  // void RPCStartGame(Vector3 spawnposition, Quaternion spawnrotaion)
+  // {
+  //   PhotonNetwork.Instantiate("Player", spawnposition, spawnrotaion, 0);
+  // }
 }

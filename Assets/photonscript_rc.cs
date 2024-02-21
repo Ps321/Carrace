@@ -159,6 +159,7 @@ public class photonscript_rc : MonoBehaviourPunCallbacks
     {
         Debug.Log(newPlayer.NickName + " joined the room");
         AssignPlayerNumber(newPlayer);
+        StartCoroutine(ReadPlayerInfo());
     }
 
 

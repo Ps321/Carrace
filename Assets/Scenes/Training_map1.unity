@@ -17034,12 +17034,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -25020,6 +25020,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 0}
   - {fileID: 0}
+  cars: []
 --- !u!4 &1847391568
 Transform:
   m_ObjectHideFlags: 0
@@ -25046,7 +25047,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4159a2e6065e7448681beead553e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 1878154799165475619, guid: 64d5ff9088347724491d9d64ed76c3b3, type: 3}
+  cars:
+  - {fileID: 1663699354319473585, guid: 5a368a054e7149b45bfd0a233c655c75, type: 3}
+  - {fileID: 4040726459426945187, guid: 8fa807e01a02cda4391e97b986952220, type: 3}
+  - {fileID: 420494986015621968, guid: b85fcd5bae53a9e4aa7d5eb04e8baf13, type: 3}
+  - {fileID: 6530917725158246685, guid: d9883ed5980856a41a2cb5ef20192a07, type: 3}
+  - {fileID: 1199804722899040867, guid: 0f3a99723828e6f4b9c3ce6c04181e94, type: 3}
+  - {fileID: 1878154799165475619, guid: 3962724592ea0ab41abbbbc8dc75fba2, type: 3}
+  - {fileID: 2985467208410214647, guid: 7161fd3cbf0c1484997552483eb85b02, type: 3}
+  - {fileID: 6646015437329481512, guid: 5d2f060a59e560241a5dc6d3989c1ebb, type: 3}
+  - {fileID: 848833531475435842, guid: 281c41f539ff57b4f83f6138ac5ea281, type: 3}
+  - {fileID: 3432898568526959884, guid: 158f933e5bc913f44b459b999eec92eb, type: 3}
+  - {fileID: 885235489896214469, guid: 6e6b0536ee2b48b4aaec706982dc71e7, type: 3}
+  - {fileID: 7172730841246064829, guid: d71b8f7967359054ca9529a56b467727, type: 3}
+  - {fileID: 5513992678995089156, guid: 69e1b137032350b4f8df4dbca5d7b2a8, type: 3}
+  - {fileID: 4490604363610026168, guid: d123a2c9c2fd90949a7d554c5e71aa31, type: 3}
+  - {fileID: 5147189153002194121, guid: c8c107d94d25ad34f81ead7b0dcebee0, type: 3}
   player2: {fileID: 8601490019045494303, guid: c79db884c3dd6884ea8072140027d031, type: 3}
   player3: {fileID: 7023556125717557383, guid: bb725deee7967d244a8f347ef138f081, type: 3}
 --- !u!1 &1854973679
@@ -38860,6 +38876,7 @@ MonoBehaviour:
   m_Downforce: 100
   m_SpeedType: 0
   m_Topspeed: 150
+  boost: 0
   m_RevRangeBoundary: 1
   m_SlipLimit: 0.3
   m_BrakeTorque: 20000

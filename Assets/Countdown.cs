@@ -27,7 +27,7 @@ public class Countdown : MonoBehaviour
     IEnumerator Countstart()
     {
         yield return new WaitForSeconds(0.5f);
-        SpawnVehicle.player.GetComponent<Rigidbody>().isKinematic = true;
+        SpawnVehicle.player.GetComponent<Rigidbody>().isKinematic = false;
         CountDown.GetComponent<Text>().text = "3";
         startsound.Play();
         CountDown.SetActive(true);

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Vehicles.Car;
 
 public class NOScheck : MonoBehaviour
 {
     public AxisTouchButton axisTouchButton;
+    public Text nos;
     void Start()
     {
 
@@ -32,9 +34,10 @@ public class NOScheck : MonoBehaviour
             {
                 // Perform actions specific to the local player's object collision
                 Debug.Log("Local player's object collided with something!");
-                otherPhotonView.GetComponent<CarController>().m_Topspeed=400;
-                otherPhotonView.GetComponent<CarController>().boost=true;
-
+                otherPhotonView.GetComponent<CarController>().m_Topspeed = 400;
+                otherPhotonView.GetComponent<CarController>().boost = true;
+                StartCoroutine(stopnos(otherPhotonView));
+                nos.gameObject.SetActive(true);
             }
             else
             {
@@ -42,5 +45,13 @@ public class NOScheck : MonoBehaviour
                 Debug.Log("Other player's object collided with something!");
             }
         }
+    }
+
+    IEnumerator stopnos(PhotonView other)
+    {
+        yield return new WaitForSeconds(5.0f);
+        other.GetComponent<CarController>().m_Topspeed = 250;
+        other.GetComponent<CarController>().boost = false;
+        nos.gameObject.SetActive(false);
     }
 }

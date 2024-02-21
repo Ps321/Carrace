@@ -22,7 +22,7 @@ public class LapCompleteTimeMagaer : MonoBehaviour
 
   private void Start()
   {
-    // StartCoroutine(updateindpoint());
+    StartCoroutine(updateracedata());
   }
 
   private void Update()
@@ -94,23 +94,71 @@ public class LapCompleteTimeMagaer : MonoBehaviour
     if (ailap > 2 && lap <= 2)
     {
       Loosescreen.SetActive(true);
+      StartCoroutine(updateindpoint(0));
     }
     if (lap > 2 && ailap <= 2)
     {
       Winscreen.SetActive(true);
-      StartCoroutine(updateindpoint());
+      StartCoroutine(updateindpoint(100));
     }
   }
-  IEnumerator updateindpoint()
+  IEnumerator updateindpoint(int value)
   {
     WWWForm form = new WWWForm();
 
+    form.AddField("name", PlayerPrefs.GetString("name"));
     form.AddField("email", PlayerPrefs.GetString("email"));
+    form.AddField("value", value);
+
+    form.AddField("roomname", "Room" + Random.Range(1000, 10000));
+    form.AddField("racetype", "Ind Points");
+    form.AddField("position", 1);
 
 
 
 
     using (UnityWebRequest www = UnityWebRequest.Post("http://indgamesia.com/updateindpoints.php", form))
+    {
+      yield return www.SendWebRequest();
+
+      if (www.result != UnityWebRequest.Result.Success)
+      {
+        // SceneManager.LoadScene(0);
+        Debug.Log(www.error);
+      }
+      else
+      {
+        //Debug.Log(www.downloadHandler.text);
+        string s = www.downloadHandler.text.Trim();
+        if (s == "Error")
+        {
+          // t.text = "User Already Exist";
+          // t.color = Color.red;
+        }
+
+        else
+        {
+
+          Debug.Log(s); //Output 1
+
+        }
+      }
+
+    }
+  }
+
+
+  IEnumerator updateracedata()
+  {
+    WWWForm form = new WWWForm();
+    form.AddField("roomname", "Room" + Random.Range(1000, 10000));
+    form.AddField("name", PlayerPrefs.GetString("name"));
+    form.AddField("racetype", "IndPoints");
+
+
+
+
+    using (UnityWebRequest www = UnityWebRequest.Post("http://indgamesia.com/indpointsrace.php", form))
     {
       yield return www.SendWebRequest();
 

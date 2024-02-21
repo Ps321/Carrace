@@ -44,6 +44,14 @@ public class UIController : MonoBehaviour
     public void setracemode(int val)
     {
         PlayerPrefs.SetInt("RaceMode", val);
+        if (val == 1)
+        {
+
+        }
+        else
+        {
+
+        }
     }
 
     public void setmapmode(int val)
@@ -188,5 +196,9 @@ public class UIController : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+    public void refresh()
+    {
+        SceneManager.LoadScene(11);
     }
 }

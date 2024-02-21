@@ -30,7 +30,7 @@ public class indcoin_timer : MonoBehaviourPunCallbacks, IPunObservable
             timeleft.text = Mathf.CeilToInt(maxTime - timer).ToString();
             if (timer >= maxTime)
             {
-                if (PhotonNetwork.PlayerList.Count() < 4)
+                if (PhotonNetwork.PlayerList.Count() < 2)
                 {
                     timer = 0;
                 }
@@ -76,11 +76,23 @@ public class indcoin_timer : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["C2"].ToString()) == 0)
                 {
-                    SceneManager.LoadScene(3);
+                    if (PhotonNetwork.IsMasterClient)
+
+                    {
+
+                        PhotonNetwork.LoadLevel(3);
+
+                    }
                 }
                 else
                 {
-                    SceneManager.LoadScene(10);
+                    if (PhotonNetwork.IsMasterClient)
+
+                    {
+
+                        PhotonNetwork.LoadLevel(10);
+
+                    }
                 }
 
             }
